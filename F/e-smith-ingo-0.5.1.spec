@@ -2,7 +2,7 @@ Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
 %define version 0.5.1
-%define release 01
+%define release 01sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -27,6 +27,10 @@ Requires: pear-mail_mime
 AutoReqProv: no
 
 %changelog
+* Fri Sep 16 2005 chris burnat <cburnat@burnat.com>
+- [0.5.1-01sme01]
+- rebuild & change Release tag 
+
 * Wed Aug 31 2005 Greg Swallow <gregswallow@skynetonline.ca>
 - [0.5.1-01]
 - initial release
