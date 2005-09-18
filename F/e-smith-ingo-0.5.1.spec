@@ -2,7 +2,7 @@ Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
 %define version 0.5.1
-%define release 01sme01
+%define release 01sme02
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -27,6 +27,12 @@ Requires: pear-mail_mime
 AutoReqProv: no
 
 %changelog
+* Sun Sep 18 2005 chris burnat <cburnat@burnat.com>
+- [0.5.1-01sme02]
+- Addentum: this package and its dependancy have been included into the 
+  build to fix issues described in [SF:1276898] "webmail filters 
+  disabled".  Thanks to Greg Swallows.    
+
 * Fri Sep 16 2005 chris burnat <cburnat@burnat.com>
 - [0.5.1-01sme01]
 - rebuild & change Release tag 
