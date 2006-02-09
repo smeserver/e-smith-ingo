@@ -1,0 +1,32 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-0.5.1/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/85IngoAccess mezzanine_patched_e-smith-ingo-0.5.1/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/85IngoAccess
+--- e-smith-ingo-0.5.1/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/85IngoAccess	2005-08-31 19:42:52.000000000 -0400
++++ mezzanine_patched_e-smith-ingo-0.5.1/root/etc/e-smith/templates/etc/httpd/conf/httpd.conf/85IngoAccess	2006-02-08 20:48:48.000000000 -0500
+@@ -1,17 +1,9 @@
+ {
+-    use esmith::db;
+-    use esmith::config;
++    $OUT = '';
++    my $status = $imp{status} || 'disabled';
++    return unless $status eq 'enabled';
+ 
+-    local %services;
+-    $services{'imp'} = $imp;
+-
+-    my $status = db_get_prop(\%services, "imp", "status");
+-
+-    if (defined $status)
+-    {
+-	if ($status eq 'enabled')
+-	{
+-	    $OUT .= qq(
++    $OUT .= qq(
+ # INGO specific access configuration
+ 
+ <Directory /home/httpd/html/horde/ingo/config>
+@@ -34,6 +26,4 @@
+     deny from all
+ </Directory>
+ );
+-	}
+-    }
+ }

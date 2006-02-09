@@ -2,13 +2,14 @@ Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
 %define version 0.5.1
-%define release 01sme02
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: SME Server
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-ingo-0.5.1-configdb.patch
 Packager: SME Server Developers <smeserver-developer@sourceforge.net>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -27,6 +28,9 @@ Requires: pear-mail_mime
 AutoReqProv: no
 
 %changelog
+* Wed Feb  8 2006 Charlie Brady <charlieb@e-smith.com> 0.5.1-02
+- Remove deprecated db lookup code in template fragment. [SME: 708]
+
 * Sun Sep 18 2005 chris burnat <cburnat@burnat.com>
 - [0.5.1-01sme02]
 - Addentum: this package and its dependancy have been included into the 
@@ -47,6 +51,7 @@ so that INGO will work properly.
 
 %prep
 %setup
+%patch0 -p1
 
 %build
 for file in conf.php backends.php prefs.php
