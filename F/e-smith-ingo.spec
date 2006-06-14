@@ -2,13 +2,14 @@ Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
 %define version 1.0.0
-%define release 01
+%define release 02
 Version: %{version}
 Release: %{release}
 License: GPL
 Vendor: SME Server
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
+Patch0: e-smith-ingo-1.0.0.API.patch
 Packager: SME Server Developers <smeserver-developer@sourceforge.net>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
@@ -27,7 +28,10 @@ Requires: pear-mail_mime
 AutoReqProv: no
 
 %changelog
-* Thu Mar 16 2006 Gordon Rowell <gordonr@gormand.com.au> 1.2.0-01
+* Wed Jun 14 2006 Charlie Brady <charlie_brady@mitel.com> 1.0.0-02
+- Fix use of deprecated APIs in httpd.conf template fragment. [SME: 708]
+
+* Thu Mar 16 2006 Gordon Rowell <gordonr@gormand.com.au> 1.0.0-01
 - Roll stable stream version. [SME: 1016]
 
 * Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au>
@@ -53,6 +57,7 @@ so that INGO will work properly.
 
 %prep
 %setup
+%patch0 -p1
 
 %build
 for file in conf.php backends.php prefs.php
