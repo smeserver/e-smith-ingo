@@ -2,15 +2,15 @@ Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
 %define version 1.0.0
-%define release 02
+%define release 3
 Version: %{version}
-Release: %{release}
+Release: %smerelease %{release}
+Packager: %{_packager}
 License: GPL
 Vendor: SME Server
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-ingo-1.0.0.API.patch
-Packager: SME Server Developers <smeserver-developer@sourceforge.net>
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: ingo-h3 >= 1.0.1
@@ -28,6 +28,10 @@ Requires: pear-mail_mime
 AutoReqProv: no
 
 %changelog
+* Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
+- Update to new release naming.  No functional changes.
+- Make Packager generic
+
 * Wed Jun 14 2006 Charlie Brady <charlie_brady@mitel.com> 1.0.0-02
 - Fix use of deprecated APIs in httpd.conf template fragment. [SME: 708]
 
