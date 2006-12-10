@@ -1,8 +1,8 @@
 Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
-%define version 1.0.0
-%define release 3
+%define version 1.1
+%define release 5
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -10,10 +10,15 @@ License: GPL
 Vendor: SME Server
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-ingo-1.0.0.API.patch
+Patch0: e-smith-ingo-1.1-1.backends_php.patch
+Patch1: e-smith-ingo-1.1-2.createlinks.patch
+Patch2: e-smith-ingo-1.1-3.menuarray.patch
+Patch3: e-smith-ingo-1.1-4.ingo_horde_registry_php.patch 
+Patch4: e-smith-ingo-1.1-5.ingo_1.1.2_template.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
-Requires: ingo-h3 >= 1.0.1
+Requires: imp-h3 >= 4.1
+Requires: ingo-h3 >= 1.1
 Requires: e-smith-base >= 4.15.1
 Requires: e-smith-apache >= 1.1.0-18
 Requires: e-smith-lib >= 1.15.1-16
@@ -26,11 +31,39 @@ Requires: pear-log
 Requires: pear-mail
 Requires: pear-mail_mime
 AutoReqProv: no
+Obsoletes: smeserver-ingo-menuarray
 
 %changelog
-* Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
+* Sat Dec 09 2006 Shad L. Lords <slords@mail.com>
 - Update to new release naming.  No functional changes.
 - Make Packager generic
+
+* Mon Oct 22 2006 John H. Bennett III <bennettj@johnbennettservices.com> 1.1-5
+- Patch to upgrade template files to match ingo 1.1.2.
+
+* Thu Oct 5 2006 John H. Bennett III <bennettj@johnbennettservices.com> 1.1-4
+- Added ingo specific horde/config/registry.php settings.  These were previously
+  kept in the e-smith-horde rpm.
+
+* Sat Sep 23 2006 John H. Bennett III <bennettj@johnbennettservices.com> 1.1-3
+- Added an includes statement to 120Menu that will grab the information in 
+  horde/conf.menu.apps.php.  This way each of the individual horde modules 
+  don't have to repeatedly process the same template for the menu array 
+  section in conf.php.
+- Added the ability to enable or disable ingo menu icon from showing up on the main 
+  webmail screen.  To initially enable - config set ingo service MenuArray disabled|enabled
+  After the DB entry is created you can enable or disable this by 
+  config setprop ingo MenuArray disabled|enabled
+
+* Sat Sep 23 2006 John H. Bennett III <bennettj@johnbennettservices.com> 1.1-2
+- Patch to createlinks that moves symlink create function from spec file
+  to createlinks section.
+
+* Thu Sep 14 2006 John H. Bennett III <bennettj@johnbennettservices.com> 1.1-1
+- Patch to backend.php templates to reflect changes in ingo 1.1.1
+
+* Wed Sep 13 2006 John H. Bennett III <bennettj@johnbennettservices.com> 1.1-0
+- Rolled to new dev stream to reflect work done for ingo 1.1.1
 
 * Wed Jun 14 2006 Charlie Brady <charlie_brady@mitel.com> 1.0.0-02
 - Fix use of deprecated APIs in httpd.conf template fragment. [SME: 708]
@@ -62,16 +95,12 @@ so that INGO will work properly.
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
-for file in conf.php backends.php prefs.php
-do 
-    mkdir -p root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/$file
-    ln -s /etc/e-smith/templates-default/template-begin-php \
-         root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/$file/template-begin
-    ln -s /etc/e-smith/templates-default/template-end-php \
-         root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/$file/template-end
-done
  
 perl createlinks
 
