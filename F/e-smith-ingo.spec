@@ -4,10 +4,8 @@ Name: %{name}
 %define version 1.1
 %define release 5
 Version: %{version}
-Release: %smerelease %{release}
-Packager: %{_packager}
+Release: %{release}%{?dist}
 License: GPL
-Vendor: SME Server
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-ingo-1.1-1.backends_php.patch
@@ -30,10 +28,14 @@ Requires: pear-file
 Requires: pear-log
 Requires: pear-mail
 Requires: pear-mail_mime
+BuildRequires: e-smith-devtools >= 1.13.1-03
 AutoReqProv: no
 Obsoletes: smeserver-ingo-menuarray
 
 %changelog
+* Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
+- Clean up spec so package can be built by koji/plague
+
 * Sat Dec 09 2006 Shad L. Lords <slords@mail.com>
 - Update to new release naming.  No functional changes.
 - Make Packager generic
