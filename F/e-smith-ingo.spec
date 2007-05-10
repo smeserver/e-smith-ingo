@@ -2,7 +2,7 @@ Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
 %define version 1.1
-%define release 5
+%define release 6
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -21,18 +21,14 @@ Requires: e-smith-base >= 4.15.1
 Requires: e-smith-apache >= 1.1.0-18
 Requires: e-smith-lib >= 1.15.1-16
 Requires: php
-Requires: php-pear
-Requires: pear-date
-Requires: pear-db
-Requires: pear-file
-Requires: pear-log
-Requires: pear-mail
-Requires: pear-mail_mime
 BuildRequires: e-smith-devtools >= 1.13.1-03
 AutoReqProv: no
 Obsoletes: smeserver-ingo-menuarray
 
 %changelog
+* Wed May 9 2007 Shad L. Lords <slords@mail.com> 1.1-6
+- Move pear module requires to e-smith-horde
+
 * Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
 - Clean up spec so package can be built by koji/plague
 
