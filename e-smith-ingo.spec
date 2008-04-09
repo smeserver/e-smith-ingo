@@ -1,3 +1,5 @@
+# $Id: e-smith-ingo.spec,v 1.2 2008/04/09 13:51:48 slords Exp $
+
 Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
