@@ -1,16 +1,15 @@
-# $Id: e-smith-ingo.spec,v 1.3 2008/06/26 05:00:55 slords Exp $
+# $Id: e-smith-ingo.spec,v 1.4 2008/10/07 18:36:52 slords Exp $
 
 Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
-%define version 1.2
+%define version 2.2.0
 %define release 1
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-#Patch0:
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: imp-h3 >= 4.2
@@ -22,9 +21,14 @@ Requires: php
 BuildRequires: e-smith-devtools >= 1.13.1-03
 AutoReqProv: no
 Obsoletes: smeserver-ingo-menuarray
-Obsoletes: e-smith-ingo <= 1.1
 
 %changelog 
+* Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 2.2.0-1.sme
+- Roll new stream to separate sme7/sme8 trees [SME: 4633]
+
+* Tue Sep 16 2008 John H. Bennett III <bennettj@johnbennettservices.com> 1.2-2    
+- Update to e-smith-ingo templates to reflect changes in Ingo 1.2.1 [SME: 4568]
+
 * Wed Jun 18 2008 John H. Bennett III <bennettj@johnbennettservices.com> 1.2-1    
 - Initial production build
 
@@ -43,8 +47,6 @@ so that INGO will work properly on SME Server
 %prep
 %setup
 
-#%patch0 -p1
-
 %build
  
 perl createlinks
@@ -57,14 +59,6 @@ echo "%doc COPYING"          >> %{name}-%{version}-filelist
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
-
-%pre
-
-%preun
-
-%post
-
-%postun
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
