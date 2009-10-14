@@ -1,0 +1,94 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-2.0.0/root/etc/e-smith/events/actions/ingo_upgrade mezzanine_patched_e-smith-ingo-2.0.0/root/etc/e-smith/events/actions/ingo_upgrade
+--- e-smith-ingo-2.0.0/root/etc/e-smith/events/actions/ingo_upgrade	2008-05-29 23:16:57.000000000 -0500
++++ mezzanine_patched_e-smith-ingo-2.0.0/root/etc/e-smith/events/actions/ingo_upgrade	2009-10-08 20:44:27.000000000 -0500
+@@ -46,6 +46,18 @@
+ 
+ # These are all safe to run multiple times
+ 
++my @statements = (
++    "ALTER TABLE ingo_shares_groups CHANGE group_uid group_uid VARCHAR(255)",
++);
++
++foreach my $statement (@statements)
++{
++    $statement =
++        $db_ingohandle->prepare("$statement")
++            or die "prepare: $$statement: $DBI::errstr";
++    $statement->execute or die "execute: $$statement: $DBI::errstr";
++}
++
+ # We now need to create some columns, but we need to first check
+ # whether they exist already
+ my $sth = $db_ingohandle->prepare("show columns from ingo_rules");
+@@ -68,18 +80,6 @@
+ $sth4->execute;
+ my $ingo_shares_users = $sth4->fetchall_hashref('Field');
+ 
+-
+-#unless (!defined $ingo_memos->{memo_modified})
+-#{
+-#    # We need to be careful about this one as it will fail if the 
+-#    # column exists, so we check the error. 
+-#    my $statement = 
+-#        'ALTER TABLE ingo_memos DROP COLUMN memo_modified';
+-#    $statement = $db_ingohandle->prepare($statement) or 
+-#        die "prepare: $$statement: $DBI::errstr";
+-#    $statement->execute or die "execute: $$statement: $DBI::errstr";
+-#}
+-
+ # Create an index for rule_owner if needed
+ unless ($ingo_rules->{rule_owner}->{Key})
+ {
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/config/registry.php/130AppRegistryIngo mezzanine_patched_e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/config/registry.php/130AppRegistryIngo
+--- e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/config/registry.php/130AppRegistryIngo	2008-04-10 21:21:47.000000000 -0500
++++ mezzanine_patched_e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/config/registry.php/130AppRegistryIngo	2009-10-08 20:05:14.000000000 -0500
+@@ -4,7 +4,7 @@
+     'webroot' => $this->applications['horde']['webroot'] . '/ingo',
+     'name' => _("Filters"),
+     'status' => 'active',
+-    'provides' => array('mail/blacklistFrom', 'mail/showBlacklist', 'mail/whitelistFrom', 'mail/showWhitelist', 'mail/applyFilters', 'mail/canApplyFilters', 'mail/showFilters'),
++    'provides' => array('filter', 'mail/blacklistFrom', 'mail/showBlacklist', 'mail/whitelistFrom', 'mail/showWhitelist', 'mail/applyFilters', 'mail/canApplyFilters', 'mail/showFilters'),
+     'menu_parent' => 'imp'
+ );
+ 
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/100header mezzanine_patched_e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/100header
+--- e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/100header	2008-05-24 18:01:41.000000000 -0500
++++ mezzanine_patched_e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/100header	2009-10-08 20:40:45.000000000 -0500
+@@ -1,6 +1,6 @@
+ //100header
+ /**
+- * $Horde: ingo/config/backends.php.dist,v 1.20.8.11 2008/05/02 03:54:53 chuck Exp $
++ * $Horde: ingo/config/backends.php.dist,v 1.20.8.12 2008/12/15 02:33:07 chuck Exp $
+  *
+  * Ingo works purely on a preferred mechanism for server selection. There are
+  * a number of properties that you can set for each backend:
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/130maildrop mezzanine_patched_e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/130maildrop
+--- e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/130maildrop	2008-04-10 21:41:08.000000000 -0500
++++ mezzanine_patched_e-smith-ingo-2.0.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/130maildrop	2009-10-08 20:42:16.000000000 -0500
+@@ -18,11 +18,12 @@
+ //        // owner's home directory.
+ //        // You can use the following variables:
+ //        //   %u = name of the filters' owner   
++//        //   %d = domain name of the filters' owner
+ //        //   %U = the 'username' from above    
+ //        // Example:
+-//        //   '/data/maildrop/filters/%u'
++//        //   '/data/maildrop/filters/%d/%u'
+ //        //   This would be translated into:
+-//        //   '/data/maildrop/filters/<filter_owners_username>/.mailfilter'
++//        //   '/data/maildrop/filters/<filter_owners_domainname>/<filter_owners_username>/.mailfilter'
+ //        // 'vfs_path' => '/path/to/maildrop',
+ //        
+ //        // VFS: FTP example
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-2.0.0/root/home/httpd/html/horde/smeserver/ingo.sql mezzanine_patched_e-smith-ingo-2.0.0/root/home/httpd/html/horde/smeserver/ingo.sql
+--- e-smith-ingo-2.0.0/root/home/httpd/html/horde/smeserver/ingo.sql	2008-06-18 23:00:14.000000000 -0500
++++ mezzanine_patched_e-smith-ingo-2.0.0/root/home/httpd/html/horde/smeserver/ingo.sql	2009-10-08 20:43:24.000000000 -0500
+@@ -71,7 +71,7 @@
+ 
+ CREATE TABLE IF NOT EXISTS ingo_shares_groups (
+     share_id INT NOT NULL,
+-    group_uid INT NOT NULL,
++    group_uid VARCHAR(255) NOT NULL,
+     perm SMALLINT NOT NULL
+ );
+ 
