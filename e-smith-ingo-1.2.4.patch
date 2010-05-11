@@ -1,0 +1,35 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/100header mezzanine_patched_e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/100header
+--- e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/100header	2010-04-27 22:26:48.000000000 -0500
++++ mezzanine_patched_e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/100header	2010-04-27 22:19:50.000000000 -0500
+@@ -1,6 +1,6 @@
+ //100header
+ /**
+- * $Horde: ingo/config/backends.php.dist,v 1.20.8.12 2008/12/15 02:33:07 chuck Exp $
++ * $Horde: ingo/config/backends.php.dist,v 1.20.8.14 2009/12/21 18:29:08 jan Exp $
+  *
+  * Ingo works purely on a preferred mechanism for server selection. There are
+  * a number of properties that you can set for each backend:
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/160sieve mezzanine_patched_e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/160sieve
+--- e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/160sieve	2008-04-10 21:43:20.000000000 -0500
++++ mezzanine_patched_e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/backends.php/160sieve	2010-04-27 22:25:35.000000000 -0500
+@@ -20,10 +20,18 @@
+ //        // user, you also need to disable 'hordeauth' above. You have to use
+ //        // an admin user if you want to use shared rules.
+ //        // 'username' => 'cyrus',
+-//       // 'password' => '*****',
++//        // 'password' => '*****',
++//        // Enable debugging. With Net_Sieve 1.2.0 or later, the sieve protocol
++//        // communication is logged with the DEBUG level. Earlier versions
++//        // print the log to the screen.
++//        'debug' => false,
+ //    ),
+ //    'script' => 'sieve',
+-//    'scriptparams' => array(),
++//    'scriptparams' => array(
++//      // If using Dovecot or any other Sieve implementation that requires
++//      // folder names to be UTF-8 encoded, set this parameter to true.
++//      'utf8' => false,
++//    ),
+ //   'shares' => false
+ //);
+ 
