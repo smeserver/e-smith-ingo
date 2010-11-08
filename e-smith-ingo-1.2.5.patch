@@ -1,0 +1,23 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/prefs.php/100header mezzanine_patched_e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/prefs.php/100header
+--- e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/prefs.php/100header	2008-10-07 12:36:01.000000000 -0500
++++ mezzanine_patched_e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/prefs.php/100header	2010-09-28 21:59:38.000000000 -0500
+@@ -1,6 +1,6 @@
+ //100header
+ /**
+- * $Horde: ingo/config/prefs.php.dist,v 1.30.10.3 2008/06/15 21:14:38 chuck Exp $
++ * $Horde: ingo/config/prefs.php.dist,v 1.30.10.4 2010-07-06 09:49:33 jan Exp $
+  *
+  * See horde/config/prefs.php for documentation on the structure of this file.
+  */
+diff -Nur -x '*.orig' -x '*.rej' e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/prefs.php/160hordescript mezzanine_patched_e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/prefs.php/160hordescript
+--- e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/prefs.php/160hordescript	2008-04-10 22:03:50.000000000 -0500
++++ mezzanine_patched_e-smith-ingo-2.2.0/root/etc/e-smith/templates/home/httpd/html/horde/ingo/config/prefs.php/160hordescript	2010-09-28 21:47:36.000000000 -0500
+@@ -8,7 +8,7 @@
+     'locked' => false,
+     'shared' => false,
+     'type' => 'checkbox',
+-    'desc' => _("Automatically update the script after each change?")
++    'desc' => _("Automatically activate the script after each change?")
+ );
+   
+ // End script preferences

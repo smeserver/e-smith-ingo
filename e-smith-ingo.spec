@@ -1,10 +1,10 @@
-# $Id: e-smith-ingo.spec,v 1.7 2010/05/11 04:12:35 mrjhb3 Exp $
+# $Id: e-smith-ingo.spec,v 1.8 2010/11/08 04:09:45 mrjhb3 Exp $
 
 Summary: e-smith specific INGO configuration and templates.
 %define name e-smith-ingo
 Name: %{name}
 %define version 2.2.0
-%define release 4
+%define release 5
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -13,6 +13,7 @@ Source: %{name}-%{version}.tar.gz
 Patch1: e-smith-ingo_ingo-1.2.2.patch
 Patch2: e-smith-ingo-1.2.3.patch
 Patch3: e-smith-ingo-1.2.4.patch
+Patch4: e-smith-ingo-1.2.5.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 BuildArchitectures: noarch
 Requires: imp-h3 >= 4.2
@@ -26,6 +27,9 @@ AutoReqProv: no
 Obsoletes: smeserver-ingo-menuarray
 
 %changelog 
+* Sun Nov 07 2010 John H. Bennett III <bennettj@johnbennettservices.com> 2.2.0-5
+- Update e-smith-ingo templates to reflect changes in Ingo 1.2.5 [SME: 6352]
+
 * Mon May 10 2010 John H. Bennett III <bennettj@johnbennettservices.com> 2.2.0-4
 - Update e-smith-ingo templates to reflect changes in Ingo 1.2.4 [SME: 5940]
 
@@ -62,6 +66,7 @@ so that INGO will work properly on SME Server
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
  
